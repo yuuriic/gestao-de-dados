@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Dados</title>
+
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Início do cabeçalho da página -->
+  <header class="header">
+    <a href="home.html" class="logo">Gestão de Dados.</a>
+
+    <nav class="navbar">
+        <a href="index.html">Login</a>
+    </nav>
+  </header>
+
+  <main id="container-gestao">
+    <!-- Início de uma seção de resumo -->
+    <div class="resume">
+      <div class="active">
+        Entradas: R$
+        <span class="incomes" >0.00</span>
+      </div>
+      <div>
+        Saídas: R$ 
+        <span class="expenses">0.00</span>
+      </div>
+      <div>
+        Total: R$
+        <span class="total">0.00</span>
+      </div>
+    </div>
+
+    <div class="header-button">
+      <button onclick="openModal()" id="new">Incluir</i></button>
+    </div>
+
+    <!-- Início da tabela -->
+    <div class="divTable">
+      <table id="minhaTabela">
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Categoria</th>
+            <th>Tipo</th>
+            <th class="acao">Editar</th>
+            <th class="acao">Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Início do modal -->
+    <div class="modal-container">
+      <div class="modal">
+        <form>
+          <!-- Campo de entrada "Descrição" -->
+          <label for="m-descricao">Descrição</label>
+          <input id="m-descricao" type="text" required />
+    
+          <!-- Campo de entrada "Valor" -->
+          <label for="m-valor">Valor</label>
+          <input id="m-valor" type="number" required />
+        
+          <!-- Campo de entrada "Data" -->
+          <label for="m-data">Data</label>
+          <input id="m-data" type="date" required />
+    
+          <!-- Campo de entrada "Categoria" -->
+          <label for="m-categoria">Categoria</label>
+          <select id="m-categoria">
+            <option value="all" selected>Todas as categorias</option>
+            <option value="Moradia">Moradia</option>
+            <option value="Supermercado">Supermercado</option>
+            <option value="TV / Internet / Telefone">TV / Internet / Telefone</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Saude">Saúde</option>
+            <option value="Bares e Restaurante">Bares e Restaurante</option>
+            <option value="Salario">Salário</option>
+            <option value="Outros">Outros</option>
+          </select>
+    
+          <!-- Campo de entrada "Tipo" -->
+          <label for="m-type">Tipo</label>
+          <select id="m-type">
+            <option>Entrada</option>
+            <option>Saída</option>
+          </select>
+    
+          <!-- Botão "Salvar" -->
+          <button id="btnSalvar">Salvar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Início da seção de filtro de categoria -->
+    <div class="divFilterCategory">
+        <label for="categoryFilter">Filtrar</label>
+        <select id="categoryFilter">
+            <option value="all" selected>Todas as categorias</option>
+            <option value="Moradia">Moradia</option>
+            <option value="Supermercado">Supermercado</option>
+            <option value="TV / Internet / Telefone">TV / Internet / Telefone</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Saude">Saúde</option>
+            <option value="Bares e Restaurante">Bares e Restaurante</option>
+            <option value="Salario">Salário</option>
+            <option value="Outros">Outros</option>
+        </select>
+    </div>
+
+    <!-- Gráfico -->
+    <div>
+      <canvas id="categoryChart" ></canvas>
+    </div>
+  </main>  
+
+  <script src="script.js"></script>
+  <script src="grafico.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+</body>
+</html>
