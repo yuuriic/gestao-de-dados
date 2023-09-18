@@ -16,7 +16,6 @@ const sTipo = document.querySelector('#m-type');
 const sData = document.querySelector('#m-data');
 const sCategoria = document.querySelector('#m-categoria');
 
-// Declaração das variáveis "items" e "id"
 let items = getItensBD();
 let id;
 
@@ -75,7 +74,7 @@ function updateSummary() {
   incomesSpan.textContent = totalIncomes;
   expensesSpan.textContent = totalExpenses;
   totalSpan.textContent = totalItems;
-
+  
   // Armazena os totais no armazenamento local (localStorage)
   localStorage.setItem("totalIncomes", totalIncomes);
   localStorage.setItem("totalExpenses", totalExpenses);
@@ -84,7 +83,7 @@ function updateSummary() {
 
 // Configuração do evento de clique no botão "Salvar"
 btnSalvar.onclick = (e) => {
-  e.preventDefault();
+  e.preventDefault(); 
 
   // Obtenção dos valores dos campos do formulário
   const descricao = sDescricao.value;
@@ -107,8 +106,7 @@ btnSalvar.onclick = (e) => {
       date: data,
       category: categoria
     };
-    id = undefined; // Limpa a variável "id" após a edição.
-  // Se a variável "id" não estiver definida, isso significa que a função está sendo usada para adicionar um novo item.
+    id = undefined; // Limpe o id após a edição
   } else {
     items.push({
       desc: descricao,
@@ -122,7 +120,7 @@ btnSalvar.onclick = (e) => {
   setItensBD();
 
   loadItens();
-  modal.classList.remove('active') 
+  modal.classList.remove('active') // Fecha o modal após salvar
 
   updateSummary();
 };
@@ -167,30 +165,50 @@ function editItem(index) {
   openModal(index);
 }
 
+function openModal(index = null) {
+  modal.classList.add('active');
+
+  modal.onclick = e => {
+    if (e.target.className.indexOf('modal-container') !== -1) {
+      modal.classList.remove('active');
+    }
+  };
+
+  id = index;
+  if (index !== null) {
+    sDescricao.value = items[index].desc;
+    sValor.value = items[index].amount;
+    sData.value = items[index].date;
+    sCategoria.value = items[index].category;
+    sTipo.value = items[index].type;
+
+  } else {
+    sDescricao.value = '';
+    sValor.value = '';
+    sData.value = '';
+    sCategoria.value = '';
+    sTipo.value = '';
+  }
+}
+
 // Função para calcular e atualizar os totais de entradas, saídas e saldo na página
 function getTotals() {
-
-  // Filtra os itens para obter um array de valores de entradas como números
   const amountIncomes = items
     .filter((item) => item.type === "Entrada")
     .map((transaction) => Number(transaction.amount));
 
-  // Filtra os itens para obter um array de valores de saídas como números
   const amountExpenses = items
     .filter((item) => item.type === "Saída")
     .map((transaction) => Number(transaction.amount));
 
-  // Calcula o total de entradas somando os valores do array de entradas
   const totalIncomes = amountIncomes
     .reduce((acc, cur) => acc + cur, 0)
     .toFixed(2);
 
-  // Calcula o total de saídas somando os valores do array de saídas e usando Math.abs para garantir que seja positivo
   const totalExpenses = Math.abs(
     amountExpenses.reduce((acc, cur) => acc + cur, 0)
   ).toFixed(2);
 
-  // Calcula o saldo total subtraindo as saídas das entradas
   const totalItems = (totalIncomes - totalExpenses).toFixed(2);
 
   incomes.innerHTML = totalIncomes;
@@ -203,12 +221,12 @@ const setItensBD = () =>
   localStorage.setItem("db_items", JSON.stringify(items));
 
 const categoryFilter = document.querySelector("#categoryFilter");
-    
+  
 categoryFilter.addEventListener("change", filterItemsByCategory);
-    
+  
 // Função para filtrar os itens com base na categoria selecionada
 function filterItemsByCategory() {
-  loadItens(categoryFilter.value); 
+  loadItens(categoryFilter.value);
 }
   
 // Função para exibir os itens filtrados na tabela da página
@@ -237,7 +255,8 @@ function loadItens(selectedCategory = "all") {
     }
   
     getTotals();
-}
-
+  }
+  
+// Chame a função loadItens() para carregar os itens quando a página for carregada
 loadItens();
 updateSummary();
